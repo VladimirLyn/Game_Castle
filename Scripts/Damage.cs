@@ -1,49 +1,46 @@
 using System;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Damage : MonoBehaviour
 {
-    
     public Image PlayerHelthBar;
     public TMP_Text PlayerHelthText;
     public TMP_Text PlayerCristalsText;
     float HP = 100;
     public int Cristals = 0;
     int i, x;
+    bool CanTakeDamage = true;
 
     void Start()
     {
+        StartCoroutine(PlayerHP());
+        StartCoroutine(PlayerCristals());
     }
-
-    void Update()
+    public IEnumerator PlayerHP()
     {
-
+        while (true)
+        {
+            i = Convert.ToInt32(HP);
+            if (HP > 100) HP = 100;
+            PlayerHelthText.text = i.ToString();
+            PlayerHelthBar.fillAmount = HP / 100;
+            if (HP <= 0) SceneManager.LoadScene("DethScene");
+            yield return new WaitForSeconds(0.1f);
+        }
     }
-
-    private void FixedUpdate()
+    public IEnumerator PlayerCristals()
     {
-        PlayerHP();
-        PlayerCristals();
-    }
+        while (true)
+        {
+            x = Convert.ToInt32(Cristals);
+            PlayerCristalsText.text = x.ToString();
+            yield return new WaitForSeconds(0.1f);
+        }
 
-    public void PlayerHP()
-    {
-        i = Convert.ToInt32(HP);
-        if (HP > 100) HP = 100;
-        PlayerHelthText.text = i.ToString();
-        PlayerHelthBar.fillAmount = HP / 100;
-        if (HP <= 0) SceneManager.LoadScene("DethScene");
-    }
-    public void PlayerCristals()
-    {
-
-        x = Convert.ToInt32(Cristals);
-        PlayerCristalsText.text = x.ToString();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -60,11 +57,20 @@ public class Damage : MonoBehaviour
             case ("fire"):
                 {
                     Debug.Log("Fire");
-                    HP-=20;
+                    if (CanTakeDamage)
+                    {
+                        HP -= 20;
+                    }
+                    StartCoroutine(SwitchCanTakeDamage());
                     break;
                 }
         }
     }
 
-   
+    public IEnumerator SwitchCanTakeDamage()
+    {
+        CanTakeDamage = false;
+        yield return new WaitForSeconds(0.2f);
+        CanTakeDamage = true;
+    }
 }
