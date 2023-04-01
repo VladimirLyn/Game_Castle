@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class AnemyDamage : MonoBehaviour
+public class Boss3Damage : MonoBehaviour
 {
-    float HP = 80;
+    public GameObject Crystal;
+    float HP = 500;
     void Start()
     {
         StartCoroutine(AnemyHP());
@@ -15,6 +16,7 @@ public class AnemyDamage : MonoBehaviour
         {
             if (HP <= 0)
             {
+                Crystal.SetActive(true);
                 gameObject.SetActive(false);
             }
             yield return new WaitForSeconds(0.1f);

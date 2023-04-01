@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class AnemyDamage : MonoBehaviour
+public class StrongAnemyDamage : MonoBehaviour
 {
-    float HP = 80;
+    float HP = 130;
     void Start()
     {
         StartCoroutine(AnemyHP());

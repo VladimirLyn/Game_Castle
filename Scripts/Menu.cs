@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
-   public GameObject GameObject;
-   public void SetActivateMenu()
+    public GameObject GameObject;
+    public void SetActivateMenu()
     {
         Time.timeScale = 0;
         GameObject.SetActive(true);
